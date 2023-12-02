@@ -55,18 +55,10 @@ where
             .collect();
 
         for round in rounds {
-            if round.blue > min_round.blue{
-                min_round.blue = round.blue;
-            }
-
-            if round.red > min_round.red{
-                min_round.red = round.red;
-            }
-
-            if round.green > min_round.green{
-                min_round.green = round.green;
-            }
-        }   
+            min_round.blue = std::cmp::max(min_round.blue, round.blue);
+            min_round.red = std::cmp::max(min_round.red, round.red);
+            min_round.green = std::cmp::max(min_round.green, round.green);
+        }
 
         let power = min_round.blue * min_round.green * min_round.red;
         results.push(power);
