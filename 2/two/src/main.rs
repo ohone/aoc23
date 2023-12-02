@@ -7,10 +7,6 @@ fn main() {
     }
 }
 
-struct Game {
-    rounds: Vec<Round>
-}
-
 struct Round{
     blue: i32,
     green: i32,
@@ -21,19 +17,10 @@ fn process_file<P>(filename: P) -> io::Result<i32>
 where
     P: AsRef<Path>,
 {
-    const MAX_CUBES: &'static Round = {
-        &Round {
-            blue: 14,
-            green: 13,
-            red: 12
-        }
-    };
-
     let file = File::open(filename)?;
     let reader = io::BufReader::new(file);
 
     let mut results : Vec<i32> = Vec::new();    
-    let mut index = 1;
     for line_result in reader.lines() {
 
         let mut min_round = Round {
@@ -44,17 +31,7 @@ where
 
         let line = line_result?;
 
-        let rounds : Vec<Round> = line
-            .split(":")
-            .into_iter()
-            .skip(1)
-            .next()
-            .unwrap()
-            .split(";")
-            .map(string_to_round)
-            .collect();
-
-        for round in rounds {
+        for round in string_to_rounds(line) {
             min_round.blue = std::cmp::max(min_round.blue, round.blue);
             min_round.red = std::cmp::max(min_round.red, round.red);
             min_round.green = std::cmp::max(min_round.green, round.green);
@@ -69,29 +46,40 @@ where
     Ok(sum)
 }
 
-fn string_to_round(line: &str) -> Round {
-    let round_items = line
-        .trim()
-        .split(", ");
+fn string_to_rounds(line: String) -> Vec<Round> {
+    line
+        .split(":")
+        .into_iter()
+        .skip(1)
+        .next()
+        .unwrap()
+        .split(";")
+        .map(|str| {
+            let round_items = str
+                .trim()
+                .split(", ");
 
-    let mut red : i32 = 0;
-    let mut green : i32 = 0;
-    let mut blue : i32 = 0;
+            let mut red : i32 = 0;
+            let mut green : i32 = 0;
+            let mut blue : i32 = 0;
+        
+            for item in round_items {
+                let parts : Vec<&str> = item.split(" ").collect();
+                let color = parts[1];
+                let value = parts[0].parse::<i32>().unwrap();
+                match color {
+                    "red" => red = value,
+                    "green" => green = value,
+                    "blue" => blue = value,
+                    _ => println!("Unknown color {}", color)
+                }
+            }
 
-    for item in round_items {
-        let parts : Vec<&str> = item.split(" ").collect();
-        let color = parts[1];
-        let value = parts[0].parse::<i32>().unwrap();
-        match color {
-            "red" => red = value,
-            "green" => green = value,
-            "blue" => blue = value,
-            _ => println!("Unknown color {}", color)
-        }
-    }
-    Round {
-        blue,
-        green,
-        red
-    }
+            Round {
+                blue,
+                green,
+                red
+            }
+        })
+        .collect()
 }
