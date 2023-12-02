@@ -7,10 +7,6 @@ fn main() {
     }
 }
 
-struct Game {
-    rounds: Vec<Round>
-}
-
 struct Round{
     blue: i32,
     green: i32,
@@ -37,15 +33,7 @@ where
     for line_result in reader.lines() {
         let line = line_result?;
 
-        let rounds : Vec<Round> = line
-            .split(":")
-            .into_iter()
-            .skip(1)
-            .next()
-            .unwrap()
-            .split(";")
-            .map(string_to_round)
-            .collect();
+        let rounds : Vec<Round> = string_to_rounds(line);
 
         let mut illegal = false;
         for round in rounds {
@@ -64,34 +52,43 @@ where
         index += 1;
     }
 
-    let sum = results.iter().sum::<i32>();
-
-    Ok(sum)
+    Ok(results.iter().sum::<i32>())
 }
 
-fn string_to_round(line: &str) -> Round {
-    let round_items = line
-        .trim()
-        .split(", ");
+fn string_to_rounds(line: String) -> Vec<Round> {
+    line
+        .split(":")
+        .into_iter()
+        .skip(1)
+        .next()
+        .unwrap()
+        .split(";")
+        .map(|str| {
+            let round_items = str
+                .trim()
+                .split(", ");
 
-    let mut red : i32 = 0;
-    let mut green : i32 = 0;
-    let mut blue : i32 = 0;
+            let mut red : i32 = 0;
+            let mut green : i32 = 0;
+            let mut blue : i32 = 0;
+        
+            for item in round_items {
+                let parts : Vec<&str> = item.split(" ").collect();
+                let color = parts[1];
+                let value = parts[0].parse::<i32>().unwrap();
+                match color {
+                    "red" => red = value,
+                    "green" => green = value,
+                    "blue" => blue = value,
+                    _ => println!("Unknown color {}", color)
+                }
+            }
 
-    for item in round_items {
-        let parts : Vec<&str> = item.split(" ").collect();
-        let color = parts[1];
-        let value = parts[0].parse::<i32>().unwrap();
-        match color {
-            "red" => red = value,
-            "green" => green = value,
-            "blue" => blue = value,
-            _ => println!("Unknown color {}", color)
-        }
-    }
-    Round {
-        blue,
-        green,
-        red
-    }
+            Round {
+                blue,
+                green,
+                red
+            }
+        })
+        .collect()
 }
