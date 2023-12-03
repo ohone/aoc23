@@ -14,7 +14,6 @@ where
     let file = File::open(filename)?;
     let reader = io::BufReader::new(file);
 
-
     let mut results : Vec<i32> = Vec::new();    
     for line_result in reader.lines() {
         let line = line_result?;

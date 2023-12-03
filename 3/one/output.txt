@@ -1,0 +1,170 @@
+Processing file: "src/input.txt"
+grid len: 10
+y: 0
+x: 0, y: 0, ch: 4
+x: 1, y: 0, ch: 6
+encountered Number
+x: 2, y: 0, ch: 7
+encountered Number
+x: 3, y: 0, ch: .
+encountered Number
+x: 4, y: 0, ch: .
+x: 5, y: 0, ch: 1
+x: 6, y: 0, ch: 1
+encountered Number
+x: 7, y: 0, ch: 4
+encountered Number
+x: 8, y: 0, ch: .
+encountered Number
+x: 9, y: 0, ch: .
+encountered None
+y: 1
+x: 0, y: 1, ch: .
+x: 1, y: 1, ch: .
+x: 2, y: 1, ch: .
+x: 3, y: 1, ch: *
+x: 4, y: 1, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 5, y: 1, ch: .
+x: 6, y: 1, ch: .
+x: 7, y: 1, ch: .
+x: 8, y: 1, ch: .
+x: 9, y: 1, ch: .
+encountered None
+y: 2
+x: 0, y: 2, ch: .
+x: 1, y: 2, ch: .
+x: 2, y: 2, ch: 3
+x: 3, y: 2, ch: 5
+encountered InvalidNumber
+x: 4, y: 2, ch: .
+encountered InvalidNumber
+x: 5, y: 2, ch: .
+x: 6, y: 2, ch: 6
+x: 7, y: 2, ch: 3
+encountered InvalidNumber
+x: 8, y: 2, ch: 3
+encountered InvalidNumber
+x: 9, y: 2, ch: .
+encountered InvalidNumber
+encountered None
+y: 3
+x: 0, y: 3, ch: .
+x: 1, y: 3, ch: .
+x: 2, y: 3, ch: .
+x: 3, y: 3, ch: .
+x: 4, y: 3, ch: .
+x: 5, y: 3, ch: .
+x: 6, y: 3, ch: #
+x: 7, y: 3, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 8, y: 3, ch: .
+x: 9, y: 3, ch: .
+encountered None
+y: 4
+x: 0, y: 4, ch: 6
+x: 1, y: 4, ch: 1
+encountered Number
+x: 2, y: 4, ch: 7
+encountered Number
+x: 3, y: 4, ch: *
+encountered Number
+x: 4, y: 4, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 5, y: 4, ch: .
+x: 6, y: 4, ch: .
+x: 7, y: 4, ch: .
+x: 8, y: 4, ch: .
+x: 9, y: 4, ch: .
+encountered None
+y: 5
+x: 0, y: 5, ch: .
+x: 1, y: 5, ch: .
+x: 2, y: 5, ch: .
+x: 3, y: 5, ch: .
+x: 4, y: 5, ch: .
+x: 5, y: 5, ch: +
+x: 6, y: 5, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 7, y: 5, ch: 5
+x: 8, y: 5, ch: 8
+encountered Number
+x: 9, y: 5, ch: .
+encountered Number
+encountered None
+y: 6
+x: 0, y: 6, ch: .
+x: 1, y: 6, ch: .
+x: 2, y: 6, ch: 5
+x: 3, y: 6, ch: 9
+encountered Number
+x: 4, y: 6, ch: 2
+encountered Number
+x: 5, y: 6, ch: .
+encountered Number
+x: 6, y: 6, ch: .
+x: 7, y: 6, ch: .
+x: 8, y: 6, ch: .
+x: 9, y: 6, ch: .
+encountered None
+y: 7
+x: 0, y: 7, ch: .
+x: 1, y: 7, ch: .
+x: 2, y: 7, ch: .
+x: 3, y: 7, ch: .
+x: 4, y: 7, ch: .
+x: 5, y: 7, ch: .
+x: 6, y: 7, ch: 7
+x: 7, y: 7, ch: 5
+encountered Number
+x: 8, y: 7, ch: 5
+encountered Number
+x: 9, y: 7, ch: .
+encountered Number
+encountered None
+y: 8
+x: 0, y: 8, ch: .
+x: 1, y: 8, ch: .
+x: 2, y: 8, ch: .
+x: 3, y: 8, ch: $
+x: 4, y: 8, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 5, y: 8, ch: *
+x: 6, y: 8, ch: .
+encountered Symbol
+.
+encountered Symbol then None
+x: 7, y: 8, ch: .
+x: 8, y: 8, ch: .
+x: 9, y: 8, ch: .
+encountered None
+y: 9
+x: 0, y: 9, ch: .
+x: 1, y: 9, ch: 6
+x: 2, y: 9, ch: 6
+encountered Number
+x: 3, y: 9, ch: 4
+encountered Number
+x: 4, y: 9, ch: .
+encountered Number
+x: 5, y: 9, ch: 5
+x: 6, y: 9, ch: 9
+encountered InvalidNumber
+x: 7, y: 9, ch: 8
+encountered InvalidNumber
+x: 8, y: 9, ch: .
+encountered InvalidNumber
+x: 9, y: 9, ch: .
+encountered None
+["467", "114", "58", "592", "755", "664"]
+2650
