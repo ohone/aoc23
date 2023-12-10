@@ -12,26 +12,12 @@ struct RangeMapping {
 }
 
 impl RangeMapping {
-    fn map(&self, value: i64) -> i64 {
-        let mut result = value - self.source_range_start;
-        result += self.dest_range_start;
-        result
-    }
-
     fn map_range(&self, value: &Range<i64>) -> Range<i64> {
         let mut result = value.start - self.source_range_start;
         result += self.dest_range_start;
         let mut end_result = value.end - self.source_range_start;
         end_result += self.dest_range_start;
         result..end_result
-    }
-
-    fn source_range_contains(&self, value: i64) -> bool {
-        println!("Checking if {} is in range {} to {}", value, self.source_range_start, self.source_range_start + self.range_length);
-        let result = value >= self.source_range_start && value < self.source_range_start + self.range_length;
-        println!("Result: {}", result);
-        
-        result
     }
 
     fn source_range_contains_range(&self, start: i64, end: i64) -> bool{
