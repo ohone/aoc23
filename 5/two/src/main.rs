@@ -13,11 +13,11 @@ struct RangeMapping {
 
 impl RangeMapping {
     fn map_range(&self, value: &Range<i64>) -> Range<i64> {
-        let mut result = value.start - self.source_range_start;
-        result += self.dest_range_start;
+        let mut start = value.start - self.source_range_start;
+        start += self.dest_range_start;
         let mut end_result = value.end - self.source_range_start;
         end_result += self.dest_range_start;
-        result..end_result
+        start..end_result
     }
 
     fn source_range_contains_range(&self, start: i64, end: i64) -> bool{
@@ -25,7 +25,6 @@ impl RangeMapping {
         let end_of_range = end;
 
         let result = (start >= self.source_range_start && start <= end_of_source_range) || (end_of_range >= self.source_range_start && end_of_range <= end_of_source_range);
-        println!("Result: {}", result);
         result
     }
 }
@@ -60,7 +59,7 @@ where
     let mut seeds_ranges = Vec::new(); 
     while let Some(first) = seeds.next(){
         if let Some(second) = seeds.next(){
-            seeds_ranges.push(first..second);
+            seeds_ranges.push(first..first + second);
         }
     }
 
@@ -98,8 +97,9 @@ where
     let mut final_pointers = Vec::new();
     for pointer in seeds_ranges {
         let mut new_number = pointer;
-
+        println!("Range: {:?}", new_number);
         for mapping_set in &final_mappings {
+            println!("  Mapping set: {:?}", mapping_set);
             let new_range : Vec<Range<i64>> = mapping_set
                 .iter()
                 .filter(|o| o.source_range_contains_range(new_number.start, new_number.end))
@@ -108,6 +108,7 @@ where
                 .collect();
 
             if new_range.len() > 0 {
+                println!("  ==Matched: {:?}", new_range[0]);
                 new_number = new_range[0].clone();
             }
         }
