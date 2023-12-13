@@ -13,11 +13,27 @@ struct RangeMapping {
 
 impl RangeMapping {
     fn map_range(&self, value: &Range<i64>) -> Range<i64> {
-        let mut start = value.start - self.source_range_start;
-        start += self.dest_range_start;
-        let mut end_result = value.end - self.source_range_start;
-        end_result += self.dest_range_start;
-        start..end_result
+        let new_start = match value.start < self.source_range_start {
+            true => {
+                self.source_range_start
+            },
+            false => {
+                value.start
+            }
+        };
+            
+        let new_end = match value.end > self.source_range_start + self.range_length {
+            true => {
+                self.source_range_start + self.range_length
+            },
+            false => {
+                value.end
+            }
+        };
+
+        let matching_range = new_start..new_end;
+        println!("        Matching Range: {:?}", matching_range);
+        return matching_range.start - self.source_range_start + self.dest_range_start..matching_range.end - self.source_range_start + self.dest_range_start;
     }
 
     fn source_range_contains_range(&self, start: i64, end: i64) -> bool{
@@ -69,9 +85,11 @@ where
 
     let mut iterated_reader = line_reader.skip(2);
 
+    // load mappings into memory
     while let Some(line) = iterated_reader.next() {
         let line = line.unwrap();
         println!("Line: {}", line);
+        // empty line means we're done with this mapping set
         match line.trim().is_empty() {
             true => {
                 final_mappings.push(current_mapping_set);
@@ -90,31 +108,51 @@ where
             }
         }
     }
+
     if current_mapping_set.len() > 0 {
         final_mappings.push(current_mapping_set);
     }
 
-    let mut final_pointers = Vec::new();
-    for pointer in seeds_ranges {
-        let mut new_number = pointer;
-        println!("Range: {:?}", new_number);
-        for mapping_set in &final_mappings {
-            println!("  Mapping set: {:?}", mapping_set);
-            let new_range : Vec<Range<i64>> = mapping_set
-                .iter()
-                .filter(|o| o.source_range_contains_range(new_number.start, new_number.end))
-                .map(|o| o.map_range(&new_number))
-                .take(1)
-                .collect();
 
-            if new_range.len() > 0 {
-                println!("  ==Matched: {:?}", new_range[0]);
-                new_number = new_range[0].clone();
+    let mut current_ranges = seeds_ranges.clone();
+    for mapping_set in &final_mappings {
+        let mut new_ranges = Vec::new();
+        
+        while let Some(range) = current_ranges.pop() {
+            for result in process_range_through_mapping_set(&range, mapping_set) {
+                new_ranges.push(result);
             }
         }
 
-        final_pointers.push(new_number);
+        current_ranges = new_ranges;
+    }
+    
+
+    current_ranges.iter().map(|z| z.start).min().unwrap()
+}
+
+fn process_range_through_mapping_set(range: &Range<i64>, mappings: &Vec<RangeMapping>) -> Vec<Range<i64>> {
+    let mut new_ranges = Vec::new();
+    for mapping in mappings {
+        match try_mapping_transform_range(mapping, &range) {
+            Some(new_range) => {
+                new_ranges.push(new_range);
+            },
+            None => {
+                new_ranges.push(range.clone());
+            }
+        }
     }
 
-    return final_pointers.iter().map(|x| x.start).min().unwrap();
+    new_ranges
+}
+
+fn try_mapping_transform_range(mapping: &RangeMapping, range: &Range<i64>) -> Option<Range<i64>> {
+    if !mapping.source_range_contains_range(range.start, range.end) {
+        return None;
+    }
+
+    println!("    Contains: {:?} -> {:?}", mapping, range);
+
+    Some(mapping.map_range(range))
 }
